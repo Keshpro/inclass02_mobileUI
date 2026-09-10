@@ -10,18 +10,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       title: 'Profile App',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFF5F5F5), // Light gray background
+        scaffoldBackgroundColor: const Color(0xFFF5F5F5),
       ),
       home: const ProfileScreen(),
     );
   }
 }
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  int _points = 0;
+
+  void _incrementPoints() {
+    setState(() {
+      _points++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +52,6 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profile Image with Verification Badge
             Center(
               child: Stack(
                 alignment: Alignment.bottomRight,
@@ -53,9 +65,7 @@ class ProfileScreen extends StatelessWidget {
                     child: const CircleAvatar(
                       radius: 55,
                       backgroundColor: Colors.white,
-                      // Replace this Icon with an AssetImage if you have the avatar image downloaded
-                      // backgroundImage: AssetImage('assets/avatar.png'),
-                      child: Icon(Icons.person, size: 80, color: Colors.black54),
+                      backgroundImage: AssetImage('assets/images/aa.jpeg'),
                     ),
                   ),
                   const Padding(
@@ -70,12 +80,8 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            
-            // Divider
             const Divider(color: Colors.black87, thickness: 1.2),
             const SizedBox(height: 20),
-            
-            // Name Section
             const Text(
               'Name',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -86,8 +92,6 @@ class ProfileScreen extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.black87),
             ),
             const SizedBox(height: 24),
-            
-            // Email Section
             const Text(
               'Email',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -104,20 +108,18 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            
-            // Points Section
             const Text(
               'Points',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
               children: [
-                Icon(Icons.star, size: 20),
-                SizedBox(width: 10),
+                const Icon(Icons.star, size: 20),
+                const SizedBox(width: 10),
                 Text(
-                  '0',
-                  style: TextStyle(fontSize: 16, color: Colors.black87),
+                  '$_points',
+                  style: const TextStyle(fontSize: 16, color: Colors.black87),
                 ),
               ],
             ),
@@ -126,9 +128,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
-        onPressed: () {
-          // Add your action here
-        },
+        onPressed: _incrementPoints,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
